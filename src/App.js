@@ -19,6 +19,10 @@ function reducer(state, action) {
       );
     }
 
+    case "DELETE": {
+      return state.filter((item) => item.id !== action.targetId);
+    }
+
     default:
       return state;
   }
@@ -68,4 +72,25 @@ function App() {
 
   function onUpdate(targetId) {
     dispatch({
-      
+      type: "UPGRADE",
+      targetId: targetId,
+    });
+  }
+
+  function onDelete(targetId) {
+    dispatch({
+      type: "DELETE",
+      targetId: targetId,
+    });
+  }
+
+  return (
+    <div className="App">
+      <Header />
+      <TodoEditor onCreate={onCreate} />
+      <TodoList todo={todo} onUpdate={onUpdate} onDelete={onDelete} />
+    </div>
+  );
+}
+
+export default App;
