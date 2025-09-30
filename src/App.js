@@ -4,26 +4,25 @@ import TodoEditor from "./component/TodoEditor";
 import TodoList from "./component/TodoList";
 import React, { useRef, useReducer, useCallback, useMemo } from "react";
 
-export const TodoStateContext = React.createContext(); // Todo Context 생성
-export const TodoDispatchContext = React.createContext(); // Dispatch -> oncreate, ondelete, onupdate Context 생성
+export const TodoStateContext = React.createContext();
+//Todo Context 생성
+export const TodoDispatchContext = React.createContext();
+//Dispatch->onCreate, onDelete, onUpdate Context 생성
 
 function reducer(state, action) {
-  //action type에 따른 동작 switch문
+  //action.type에 따른 동작 switch 문
   switch (action.type) {
     case "CREATE": {
       return [action.newItem, ...state];
     }
-
-    case "UPGRADE": {
+    case "UPDATE": {
       return state.map((item) =>
         item.id === action.targetId ? { ...item, isDone: !item.isDone } : item
       );
     }
-
     case "DELETE": {
       return state.filter((item) => item.id !== action.targetId);
     }
-
     default:
       return state;
   }
@@ -52,7 +51,7 @@ function App() {
   ];
 
   //const [todo, setTodo] = useState(mockTodo);
-  const [todo, dispatch] = useReducer(reducer, mockTodo); // 위에 mokTodo 없으면 빈배열 넣기
+  const [todo, dispatch] = useReducer(reducer, mockTodo);
 
   const idRef = useRef(3); //초깃값이 3인 ref객체 생성하여 idRef에 저장
 
@@ -61,19 +60,18 @@ function App() {
     dispatch({
       type: "CREATE",
       newItem: {
-        id: idRef.current, //idRef가 현재 저장하고 있는 값 불러옴
+        id: idRef.current, //idRef가 현재 저장하고 있는 값을 불러옴
         content,
         isDone: false,
         creatDate: new Date().getTime(),
       },
     });
-
-    idRef.current += 1; // newItem -> 할일 객체를 생성 후 idRef값을 증가
+    idRef.current += 1; //newItem->할일 객체를 생성한 후 idRef값을 1증가
   }
 
   const onUpdate = useCallback((targetId) => {
     dispatch({
-      type: "UPGRADE",
+      type: "UPDATE",
       targetId: targetId,
     });
   }, []);
@@ -85,15 +83,15 @@ function App() {
     });
   }, []);
 
-  const memorizedDispatches = useMemo(() => {
-    return { onCreate, onUpdate, onDelete };
+  const meoizedDispatches = useMemo(() => {
+    return { onCreate, onDelete, onUpdate };
   }, []);
 
   return (
     <div className="App">
       <Header />
       <TodoStateContext.Provider value={todo}>
-        <TodoDispatchContext.Provider value={memorizedDispatches}>
+        <TodoDispatchContext.Provider value={meoizedDispatches}>
           <TodoEditor />
           <TodoList />
         </TodoDispatchContext.Provider>
