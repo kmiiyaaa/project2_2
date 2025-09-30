@@ -1,0 +1,13 @@
+.App {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto; /* 가운데 정렬 */
+  box-sizing: border-box;
+  padding: 20px;
+  /* border: 1px solid gray; */
+  display: flex;  /* 수평으로 배치 */
+  flex-direction: column; /* 수직으로 배치 */
+  gap: 30px;
+
+
+}
