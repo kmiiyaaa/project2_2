@@ -40,6 +40,7 @@ function TodoList({ todo, onUpdate, onDelete }) {
       <h4>Todo List ♥️</h4>
       <div>
         <div>총 개수:{totalCount}개</div>
+
         <div>완료된 할 일 :{doneCount} </div>
         <div>아직완료하지 못한 일 :{notDoneCount} </div>
       </div>
